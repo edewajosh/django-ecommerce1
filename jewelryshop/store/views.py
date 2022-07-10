@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from store.models import Address, Cart, Category, Order, Product
+from store.models import Address, Category, Order, Product
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import RegistrationForm, AddressForm
 from django.contrib import messages
@@ -99,20 +99,7 @@ def remove_address(request, id):
 
 
 
-@login_required
-def checkout(request):
-    user = request.user
-    address_id = request.GET.get('address')
-    
-    address = get_object_or_404(Address, id=address_id)
-    # Get all the products of User in Cart
-    cart = Cart.objects.filter(user=user)
-    for c in cart:
-        # Saving all the products from Cart to Order
-        Order(user=user, address=address, product=c.product, quantity=c.quantity).save()
-        # And Deleting from Cart
-        c.delete()
-    return redirect('store:orders')
+
 
 
 @login_required
