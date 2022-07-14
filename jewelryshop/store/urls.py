@@ -9,8 +9,13 @@ app_name = 'store'
 
 urlpatterns = [
     path('', views.home, name="home"),
-    # URL for Checkout
-    
+    # URL forCart and Checkout
+    path('add-to-cart/', views.add_to_cart, name="add-to-cart"),
+    path('remove-cart/<int:cart_id>/', views.remove_cart, name="remove-cart"),
+    path('plus-cart/<int:cart_id>/', views.plus_cart, name="plus-cart"),
+    path('minus-cart/<int:cart_id>/', views.minus_cart, name="minus-cart"),
+    path('cart/', views.cart, name="cart"),
+    path('checkout/', views.checkout, name="checkout"),
     path('orders/', views.orders, name="orders"),
 
     #URL for Products
@@ -36,7 +41,7 @@ urlpatterns = [
     path('accounts/password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset_confirm.html', form_class=SetPasswordForm, success_url='/accounts/password-reset-complete/'), name="password_reset_confirm"), # Passing Success URL to Override default URL
     path('accounts/password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset_complete.html'), name="password_reset_complete"),
 
-    
+    path('product/test/', views.test, name="test"),
 
     
 ]
