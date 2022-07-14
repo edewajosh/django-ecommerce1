@@ -201,7 +201,7 @@ def checkout(request):
 
     return redirect('store:orders')
 
-    
+
 
 
 
@@ -219,6 +219,10 @@ def orders(request):
 
 def shop(request):
     return render(request, 'store/shop.html')
+
+
+def test(request):
+    return render(request, 'store/test.html')
 
 
 
