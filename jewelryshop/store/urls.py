@@ -9,7 +9,7 @@ app_name = 'store'
 
 urlpatterns = [
     path('', views.home, name="home"),
-    # URL forCart and Checkout
+    # URL for Cart and Checkout
     path('add-to-cart/', views.add_to_cart, name="add-to-cart"),
     path('remove-cart/<int:cart_id>/', views.remove_cart, name="remove-cart"),
     path('plus-cart/<int:cart_id>/', views.plus_cart, name="plus-cart"),
