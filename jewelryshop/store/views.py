@@ -1,6 +1,6 @@
-from audioop import reverse
+import django
 from django.contrib.auth.models import User
-from store.models import Address, Category, Order, Product, Cart
+from store.models import Address, Cart, Category, Order, Product
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import RegistrationForm, AddressForm
 from django.contrib import messages
@@ -98,15 +98,13 @@ def remove_address(request, id):
     messages.success(request, "Address removed.")
     return redirect('store:profile')
 
-
 @login_required
 def add_to_cart(request):
     user = request.user
     product_id = request.GET.get('prod_id')
     product = get_object_or_404(Product, id=product_id)
 
-    #Checking whether the Product is in the cart or not
-
+    # Check whether the Product is alread in Cart or Not
     item_already_in_cart = Cart.objects.filter(product=product_id, user=user)
     if item_already_in_cart:
         cp = get_object_or_404(Cart, product=product_id, user=user)
@@ -114,7 +112,7 @@ def add_to_cart(request):
         cp.save()
     else:
         Cart(user=user, product=product).save()
-
+    
     return redirect('store:cart')
 
 
@@ -123,15 +121,14 @@ def cart(request):
     user = request.user
     cart_products = Cart.objects.filter(user=user)
 
-    #Displaying the Total on cart page
-    amount =decimal.Decimal(0)
+    # Display Total on Cart Page
+    amount = decimal.Decimal(0)
     shipping_amount = decimal.Decimal(10)
-
-    #calculating the total amount based on quantity and shipping
+    # using list comprehension to calculate total amount based on quantity and shipping
     cp = [p for p in Cart.objects.all() if p.user==user]
     if cp:
         for p in cp:
-            temp_amount =(p.quantity * p.product.price)
+            temp_amount = (p.quantity * p.product.price)
             amount += temp_amount
 
     # Customer Addresses
@@ -139,15 +136,12 @@ def cart(request):
 
     context = {
         'cart_products': cart_products,
-        'amount' : amount,
-        'shipping_amount' : shipping_amount,
-        'total_amount' : amount + shipping_amount,
-        'addresses' :addresses,
-
+        'amount': amount,
+        'shipping_amount': shipping_amount,
+        'total_amount': amount + shipping_amount,
+        'addresses': addresses,
     }
-
     return render(request, 'store/cart.html', context)
-
 
 
 @login_required
@@ -165,9 +159,7 @@ def plus_cart(request, cart_id):
         cp = get_object_or_404(Cart, id=cart_id)
         cp.quantity += 1
         cp.save()
-
     return redirect('store:cart')
-
 
 
 @login_required
@@ -187,25 +179,16 @@ def minus_cart(request, cart_id):
 def checkout(request):
     user = request.user
     address_id = request.GET.get('address')
-
+    
     address = get_object_or_404(Address, id=address_id)
-
-    #Get all the products of User in Cart
+    # Get all the products of User in Cart
     cart = Cart.objects.filter(user=user)
     for c in cart:
-        #Saving all the products from cart to order
+        # Saving all the products from Cart to Order
         Order(user=user, address=address, product=c.product, quantity=c.quantity).save()
-        
         # And Deleting from Cart
         c.delete()
-
     return redirect('store:orders')
-
-
-
-
-
-
 
 
 @login_required
@@ -221,10 +204,8 @@ def shop(request):
     return render(request, 'store/shop.html')
 
 
+
+
+
 def test(request):
     return render(request, 'store/test.html')
-
-
-
-
-

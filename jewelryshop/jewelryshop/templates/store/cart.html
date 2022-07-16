@@ -87,7 +87,7 @@
               <div class="bg-light px-4 py-3">
                 <div class="row align-items-center text-center">
                   <div class="col-md-6 mb-3 mb-md-0 text-md-left"><a class="btn btn-link p-0 text-dark btn-sm" href="{% url 'store:home' %}"><i class="fas fa-long-arrow-alt-left mr-2"> </i>Continue shopping</a></div>
-                  <div class="col-md-6 text-md-right"><a class="btn btn-outline-dark btn-sm" href="% url 'store:checkout' %">Procceed to checkout<i class="fas fa-long-arrow-alt-right ml-2"></i></a></div>
+                  <div class="col-md-6 text-md-right"><a class="btn btn-outline-dark btn-sm" href="checkout.html">Procceed to checkout<i class="fas fa-long-arrow-alt-right ml-2"></i></a></div>
                 </div>
               </div>
             </div>
@@ -178,7 +178,7 @@
                 return actions.order.capture().then(function(details) {
                     // Show a success message to the buyer
                     alert('Transaction completed by ' + details.payer.name.given_name + '!');
-                    // Savind Order in Database after Payment Success
+                    // Saving Order in Database after Payment Success
                     document.getElementById('myform').submit();
                 });
             }

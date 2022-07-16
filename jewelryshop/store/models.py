@@ -1,5 +1,4 @@
 from django.db import models
-from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -53,7 +52,6 @@ class Product(models.Model):
         return self.title
 
 
-
 class Cart(models.Model):
     user = models.ForeignKey(User, verbose_name="User", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, verbose_name="Product", on_delete=models.CASCADE)
@@ -68,7 +66,6 @@ class Cart(models.Model):
     @property
     def total_price(self):
         return self.quantity * self.product.price
-
 
 
 STATUS_CHOICES = (
