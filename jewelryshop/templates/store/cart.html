@@ -121,7 +121,12 @@
                     {% if addresses %}
                       {% for address in addresses %}
                         <div class="mb-3">
-                        <input type="radio" name="address" value="{{address.id}}"> <strong>Address {{forloop.counter}}</strong> <br>
+                        <input 
+                          type="radio" 
+                          name="address" 
+                          value="{{address.id}}"  
+                          {% if forloop.first %} checked="checked" {% endif %}
+                          > <strong>Address {{forloop.counter}}</strong> <br>
                         ( {{address.locality}}, {{address.city}}, {{address.state}} )
                         </div>
                       {% endfor %}
@@ -131,9 +136,18 @@
                     
 
                   
-
+                    {% comment %} {% if addresses %} {% endcomment %}
                     <!-- Set up a container element for the button -->
                     <div class="text-end" id="paypal-button-container"></div>
+
+                    {% comment %} {% else %}
+                    <form id="myform">
+                      <input name="locality" type="text" /> 
+                      <input name="city" type="text" />  
+                      <input name="state" type="text" />
+                      <button type="submit">Submit</button>               
+                    </form>
+                    {% endif %} {% endcomment %}
 
                     {% comment %} For Cash on Delivery {% endcomment %}
                     <button type="submit" class="btn btn-dark btn-lg btn-outline-dark" type="submit"> <i class="fas fa-dollar-sign mr-2"></i>Cash on Delivery</button>
