@@ -101,6 +101,12 @@ def remove_address(request, id):
 @login_required
 def add_to_cart(request):
     user = request.user
+
+    # if user do not have an address redirect them to create an address
+    address_count = Address.objects.filter(user=user).count()
+    if address_count < 1:
+        return redirect('store:add-address')
+
     product_id = request.GET.get('prod_id')
     product = get_object_or_404(Product, id=product_id)
 
@@ -119,6 +125,12 @@ def add_to_cart(request):
 @login_required
 def cart(request):
     user = request.user
+
+     # if user do not have an address redirect them to create an address
+    address_count = Address.objects.filter(user=user).count()
+    if address_count < 1:
+        return redirect('store:add-address')
+    
     cart_products = Cart.objects.filter(user=user)
 
     # Display Total on Cart Page
